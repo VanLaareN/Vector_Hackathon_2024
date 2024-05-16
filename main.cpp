@@ -39,7 +39,7 @@ int main() {
     float distance_covered_per_cycle = getEuclideanDistance(positions);
     float time_cycle = 0.0001;
 
-    
+    //asd
 
 
     return 0;
