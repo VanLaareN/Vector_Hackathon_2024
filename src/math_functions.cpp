@@ -74,15 +74,19 @@ std::vector<float> calculateImpactIntercept(std::vector<float> linearFunction){
     float ankathete = abs(abs(x_intercept2)-abs(x_intercept1));
     float a = getEuclideanDistance(points);
     
-    float theta = acos(ankathete/a);
+    double theta = acos(ankathete/a);
 
-    std::cout << ankathete << " ";
+    
 
-    float c = a*sqrt(2*(1-cos(theta)));
+    float gamma = M_PI-2.0f*theta;
+    
+    float c = 2.0f*a*sin(gamma/2);
+
+    
 
     float leftOver = X_LIMIT % (int) c;
 
-    float y_intercept = tan(theta)*leftOver;
+    float y_intercept = leftOver/tan(gamma/2.0f);
 
     std::vector<float> vec = {(float) X_LIMIT, y_intercept};
     return vec;
