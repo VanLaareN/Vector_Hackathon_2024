@@ -8,8 +8,8 @@
 
 
 int main() {
-    std::vector<float> function = {2, 0};
-    std::vector<float> result = calculateImpactIntercept(function);
+    std::vector<float> function = {-0.25, 4};
+    std::vector<float> result = getImpactPoint(function);
     for(int i = 0; i < 2; i++){
         std::cout << result[i] << " ";
     }

@@ -62,25 +62,29 @@ float calculateTimeOfImpact(std::vector<float> ballPosition, std::vector<float> 
 }
 
 
-
+//depricated
 std::vector<float> calculateImpactIntercept(std::vector<float> linearFunction){
     float x_intercept1 = linearFunction[1]/linearFunction[0] * (-1);
-    std::vector<float> point1 = {x_intercept1, 0};
+    //std::vector<float> point1 = {x_intercept1, 0};
 
     float x_intercept2 = (Y_LIMIT - linearFunction[1])/linearFunction[0];
-    std::vector<float> point2 = {x_intercept2, (float) Y_LIMIT};
+    //std::vector<float> point2 = {x_intercept2, (float) Y_LIMIT};
+
+    std::cout << x_intercept1 << " " << x_intercept2 << " ";
 
     std::vector<float> points = {x_intercept1, x_intercept2, 0, (float) Y_LIMIT};
-    float ankathete = abs(abs(x_intercept2)-abs(x_intercept1));
+    float ankathete = abs(x_intercept2-x_intercept1);
     float a = getEuclideanDistance(points);
     
-    double theta = acos(ankathete/a);
+    //std::cout << ankathete << " " << a << " ";
+
+    float theta = acos(ankathete/a);
 
     
 
     float gamma = M_PI-2.0f*theta;
     
-    float c = 2.0f*a*sin(gamma/2);
+    float c = 2.0f*a*sin(gamma/2.0f);
 
     
 
@@ -91,4 +95,18 @@ std::vector<float> calculateImpactIntercept(std::vector<float> linearFunction){
     std::vector<float> vec = {(float) X_LIMIT, y_intercept};
     return vec;
 
+}
+
+
+std::vector<float> getImpactPoint(std::vector<float> linearFunction){
+    float y_intercept_left = linearFunction[1];
+    float y_intercept_right = linearFunction[0]*X_LIMIT + linearFunction[1];
+    //To prevent frist function going down (y_intercept_right is negative) and second up
+    y_intercept_right = std::abs(y_intercept_right);
+    //to get exact y_intercept_right even when true decimal
+    float leftOver = y_intercept_right - (int) y_intercept_right;
+
+    float true_y_point = (int) y_intercept_right % Y_LIMIT;
+    true_y_point += leftOver;
+    return {(float) X_LIMIT, true_y_point};
 }
