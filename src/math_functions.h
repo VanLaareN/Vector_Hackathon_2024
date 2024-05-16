@@ -15,6 +15,7 @@ std::vector<float> flipLinearFunction(std::vector<float> linearFunction);
 float getEuclideanDistance(std::vector<float> positions);
 float calculateDistanceToImpact(std::vector<float> ballPosition, std::vector<float> linearFunction);
 float calculateTimeOfImpact(std::vector<float> ballPosition, std::vector<float> linearFunction);
+std::vector<float> calculateImpactIntercept(std::vector<float> linearFunction)
 
 
 #endif // MATH_FUNCTIONS_H

@@ -10,8 +10,8 @@ outputs {m,c} value of linear function
 */
 float DISTANCE_COVERED_PER_CYCLE = 3;
 float TIME_CYCLE = 0.0001;
-int X_LIMIT = 255;
-int Y_LIMIT = 149;
+int X_LIMIT = 10;
+int Y_LIMIT = 10;
 
 std::vector<float> getLinearFunction(std::vector<float> points) {
     float x1 = points[0];
@@ -59,4 +59,28 @@ float calculateTimeOfImpact(std::vector<float> ballPosition, std::vector<float> 
     float timeToImpact = distance/DISTANCE_COVERED_PER_CYCLE*TIME_CYCLE;
 
     return timeToImpact;
+}
+
+
+
+std::vector<float> calculateImpactIntercept(std::vector<float> linearFunction){
+    float x_intercept1 = linearFunction[1]/linearFunction[0] * (-1);
+    std::vector<float> point1 = {x_intercept1, 0};
+
+    float x_intercept2 = (Y_LIMIT - linearFunction[1])/linearFunction[0];
+    std::vector<float> point2 = {x_intercept2, (float) Y_LIMIT};
+
+    std::vector<float> points = {x_intercept1, x_intercept2, 0, (float) Y_LIMIT};
+    float ankathete = abs(abs(x_intercept2)-abs(x_intercept1));
+    float a = getEuclideanDistance(points);
+    float theta = acos(ankathete/a);
+    float c = a*sqrt(2*(1-cos(theta)));
+
+    float leftOver = X_LIMIT % (int) c;
+
+    float y_intercept = tan(theta)*leftOver;
+
+    std::vector<float> vec = {(float) X_LIMIT, y_intercept};
+    return vec;
+
 }

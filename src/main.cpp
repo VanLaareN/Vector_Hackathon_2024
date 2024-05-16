@@ -8,13 +8,11 @@
 
 
 int main() {
-    std::vector<float> positions = {10,20,30,40};
-    std::vector<float> linearFunction = getLinearFunction(positions);
-    std::vector<float> ballPosition = {10,30};
-
-    float time = calculateTimeOfImpact(ballPosition, linearFunction);
-
-    std::cout << time;
+    std::vector<float> function = {2, 0};
+    std::vector<float> result = calculateImpactIntercept(function);
+    for(int i = 0; i < 2; i++){
+        std::cout << result[i];
+    }
 
     return 0;
 }
