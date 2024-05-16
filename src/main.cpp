@@ -4,10 +4,21 @@
 #include <chrono>
 #include <ctime>
 
+
+float distance_covered_per_cycle = 3;
+float time_cycle = 0.0001;
+int X_LIMIT = 255;
+int Y_LIMIT = 149;
+
 /* 
 outputs {m,c} value of linear function
 */
-std::vector<float> getLinearFunction(float x1, float x2, float y1, float y2) {
+std::vector<float> getLinearFunction(std::vector<float> points) {
+    float x1 = points[0];
+    float x2 = points[1];
+    float y1 = points[2];
+    float y2 = points[3];
+
     float m = 0;
     float c = 0;
 
@@ -36,26 +47,28 @@ float getEuclideanDistance(std::vector<float> positions){
     return euclideanDistance;
 }
 
-float calculateDistanceToImpact(std::vector<float> positions_linear1){
-    float euclideanDistance_linear1 = getEuclideanDistance(positions_linear1);
-    float euclideanDistance_linear2 = getEuclideanDistance(flipLinearFunction(positions_linear1));
-
-    return euclideanDistance_linear1+euclideanDistance_linear2;
+float calculateDistanceToImpact(std::vector<float> ballPosition, std::vector<float> linearFunction){
+    float y_position = linearFunction[0]* X_LIMIT + linearFunction[1];
+    std::vector<float> positions = {ballPosition[0], (float) X_LIMIT, ballPosition[1], y_position};
+    float distance = getEuclideanDistance(positions);
+    return distance;
 }
 
-float calculateTimeOfImpact(std::vector<float> positions, float time_cycle, float distance_covered_per_cycle){
-    float distance = calculateDistanceToImpact(positions);
+float calculateTimeOfImpact(std::vector<float> ballPosition, std::vector<float> linearFunction){
+    float distance = calculateDistanceToImpact(ballPosition, linearFunction);
     float timeToImpact = distance/distance_covered_per_cycle*time_cycle;
 
     return timeToImpact;
 }
 
+
+
 int main() {
     std::vector<float> positions = {10,20,30,40};
-    float distance_covered_per_cycle = getEuclideanDistance(positions);
-    float time_cycle = 0.0001;
+    std::vector<float> linearFunction = getLinearFunction(positions);
+    std::vector<float> ballPosition = {10,30};
 
-    float time = calculateTimeOfImpact(positions, time_cycle, distance_covered_per_cycle);
+    float time = calculateTimeOfImpact(ballPosition, linearFunction);
 
     std::cout << time;
 
