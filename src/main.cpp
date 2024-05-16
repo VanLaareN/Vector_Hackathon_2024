@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #include<cmath>
+#include <chrono>
+#include <ctime>
 
 /* 
 outputs {m,c} value of linear function
@@ -34,13 +36,28 @@ float getEuclideanDistance(std::vector<float> positions){
     return euclideanDistance;
 }
 
+float calculateDistanceToImpact(std::vector<float> positions_linear1){
+    float euclideanDistance_linear1 = getEuclideanDistance(positions_linear1);
+    float euclideanDistance_linear2 = getEuclideanDistance(flipLinearFunction(positions_linear1));
+
+    return euclideanDistance_linear1+euclideanDistance_linear2;
+}
+
+float calculateTimeOfImpact(std::vector<float> positions, float time_cycle, float distance_covered_per_cycle){
+    float distance = calculateDistanceToImpact(positions);
+    float timeToImpact = distance/distance_covered_per_cycle*time_cycle;
+
+    return timeToImpact;
+}
+
 int main() {
     std::vector<float> positions = {10,20,30,40};
     float distance_covered_per_cycle = getEuclideanDistance(positions);
     float time_cycle = 0.0001;
 
-    //asd
+    float time = calculateTimeOfImpact(positions, time_cycle, distance_covered_per_cycle);
 
+    std::cout << time;
 
     return 0;
 }
