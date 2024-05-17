@@ -133,8 +133,6 @@ std::vector<float> getLinearFunction(std::vector<std::vector<float>> three_point
     float m = (y_values[1]-y_values[0])/(x_values[1] - x_values[0]);
     float c = y_values[0] - x_values[0]*m;
 
-    bool isOnLine = false;
-
     if (m*x_values[2] + c == y_values[2]){
         return{m,c};
     }
