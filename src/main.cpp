@@ -8,10 +8,14 @@
 
 
 int main() {
-    std::vector<float> function = {0.46, 9};
-    std::vector<float> result = getImpactPoint(function);
-    for(int i = 0; i < 2; i++){
-        std::cout << result[i] << " ";
+    std::vector<std::vector<float>> three_points = {{1,2,3}, {1,2,5}};
+    std::vector<float> linearFunction = getLinearFunction(three_points);
+
+    if(linearFunction[0] == 0 && linearFunction[1] == 0){
+        std::cout << "NOT A LINE";
+    }
+    else{
+        std::cout << "IT IS A LINE!!!!!";
     }
 
     return 0;

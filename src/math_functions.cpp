@@ -13,6 +13,7 @@ float TIME_CYCLE = 0.0001;
 int X_LIMIT = 10;
 int Y_LIMIT = 10;
 
+/*
 std::vector<float> getLinearFunction(std::vector<float> points) {
     float x1 = points[0];
     float x2 = points[1];
@@ -27,6 +28,7 @@ std::vector<float> getLinearFunction(std::vector<float> points) {
 
     return std::vector<float> {m, c};
 }
+*/
 
 std::vector<float> flipLinearFunction(std::vector<float> linearFunction){
     float flippedM = 0;
@@ -98,23 +100,47 @@ std::vector<float> calculateImpactIntercept(std::vector<float> linearFunction){
 }
 
 
-std::vector<float> getImpactPoint(std::vector<float> linearFunction) {
-    float y_intercept_left = linearFunction[1];
-    float y_intercept_right = linearFunction[0] * X_LIMIT + linearFunction[1];
+std::vector<float> getImpactPoint(const std::vector<float>* linearFunction) {
+    float y_intercept_left = (*linearFunction)[1];
+    float y_intercept_right = (*linearFunction)[0] * X_LIMIT + (*linearFunction)[1];
 
     // Calculate the number of reflections
-    float number_of_reflexions = y_intercept_right / Y_LIMIT;
+    float number_of_reflections = y_intercept_right / Y_LIMIT;
 
     // Calculate the true y point after reflections
     float leftOver = std::fmod(y_intercept_right, Y_LIMIT);
     float true_y_point = 0.0f;
 
     // Determine the true y point based on the number of reflections
-    if (static_cast<int>(number_of_reflexions) % 2 == 0) {
+    if (static_cast<int>(number_of_reflections) % 2 == 0) {
         true_y_point = leftOver;
     } else {
         true_y_point = Y_LIMIT - leftOver;
     }
 
     return {(float)X_LIMIT, true_y_point};
+}
+
+/*
+Returns vector with m, c values if all three points on a line
+Else
+Returns 0 vector
+*/
+std::vector<float> getLinearFunction(std::vector<std::vector<float>> three_points){
+    std::vector<float> x_values = three_points[0];
+    std::vector<float> y_values = three_points[1];
+
+    float m = (y_values[1]-y_values[0])/(x_values[1] - x_values[0]);
+    float c = y_values[0] - x_values[0]*m;
+
+    bool isOnLine = false;
+
+    if (m*x_values[2] + c == y_values[2]){
+        return{m,c};
+    }
+    else{
+        return {0,0};
+    }
+
+
 }
