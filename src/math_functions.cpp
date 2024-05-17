@@ -98,25 +98,23 @@ std::vector<float> calculateImpactIntercept(std::vector<float> linearFunction){
 }
 
 
-std::vector<float> getImpactPoint(std::vector<float> linearFunction){
+std::vector<float> getImpactPoint(std::vector<float> linearFunction) {
     float y_intercept_left = linearFunction[1];
-    float y_intercept_right = linearFunction[0]*X_LIMIT + linearFunction[1];
-    //To prevent frist function going down (y_intercept_right is negative) and second up
-    y_intercept_right = std::abs(y_intercept_right);
-    //to get exact y_intercept_right even when true decimal
-    float number_of_reflexions = y_intercept_right/Y_LIMIT;
+    float y_intercept_right = linearFunction[0] * X_LIMIT + linearFunction[1];
 
-    float leftOver = y_intercept_right - (int) y_intercept_right;
-    float true_y_point = 0;
+    // Calculate the number of reflections
+    float number_of_reflexions = y_intercept_right / Y_LIMIT;
 
-    //If number of reflexions odd, remove Y_LIMIT to get correct reflexion, otherwise dont
-    if((int) number_of_reflexions % 2 == 0){
-        true_y_point = (int) y_intercept_right % Y_LIMIT;
+    // Calculate the true y point after reflections
+    float leftOver = std::fmod(y_intercept_right, Y_LIMIT);
+    float true_y_point = 0.0f;
+
+    // Determine the true y point based on the number of reflections
+    if (static_cast<int>(number_of_reflexions) % 2 == 0) {
+        true_y_point = leftOver;
+    } else {
+        true_y_point = Y_LIMIT - leftOver;
     }
-    else{
-        true_y_point = std::abs((int) y_intercept_right % Y_LIMIT - Y_LIMIT);
-    }
 
-    true_y_point += leftOver;
-    return {(float) X_LIMIT, true_y_point};
+    return {(float)X_LIMIT, true_y_point};
 }

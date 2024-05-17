@@ -17,6 +17,7 @@ float calculateDistanceToImpact(std::vector<float> ballPosition, std::vector<flo
 float calculateTimeOfImpact(std::vector<float> ballPosition, std::vector<float> linearFunction);
 std::vector<float> calculateImpactIntercept(std::vector<float> linearFunction);
 std::vector<float> getImpactPoint(std::vector<float> linearFunction);
+int calculateEndpointInGrid(double m, double b);
 
 
 #endif // MATH_FUNCTIONS_H
