@@ -104,9 +104,19 @@ std::vector<float> getImpactPoint(std::vector<float> linearFunction){
     //To prevent frist function going down (y_intercept_right is negative) and second up
     y_intercept_right = std::abs(y_intercept_right);
     //to get exact y_intercept_right even when true decimal
-    float leftOver = y_intercept_right - (int) y_intercept_right;
+    float number_of_reflexions = y_intercept_right/Y_LIMIT;
 
-    float true_y_point = (int) y_intercept_right % Y_LIMIT;
+    float leftOver = y_intercept_right - (int) y_intercept_right;
+    float true_y_point = 0;
+
+    //If number of reflexions odd, remove Y_LIMIT to get correct reflexion, otherwise dont
+    if((int) number_of_reflexions % 2 == 0){
+        true_y_point = (int) y_intercept_right % Y_LIMIT;
+    }
+    else{
+        true_y_point = std::abs((int) y_intercept_right % Y_LIMIT - Y_LIMIT);
+    }
+
     true_y_point += leftOver;
     return {(float) X_LIMIT, true_y_point};
 }
